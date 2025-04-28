@@ -9,8 +9,8 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                // Clone the repository containing your Dockerfile and app code
-                git 'https://github.com/Jagan6923/node_docker_jenkins.git'  // Use the correct repository URL
+                // Clone the repository containing your Dockerfile and app code, explicitly using the 'main' branch
+                git branch: 'main', url: 'https://github.com/Jagan6923/node_docker_jenkins.git'
             }
         }
 
