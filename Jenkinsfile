@@ -1,0 +1,54 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = "node_image"
+        CONTAINER_NAME = "node_container"
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                // Clone the repository containing your Dockerfile and app code
+                git 'https://your-repository-url.com/your-repo.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Build the Docker image
+                    sh 'docker build -t ${DOCKER_IMAGE} .'
+                }
+            }
+        }
+
+        stage('Stop and Remove Previous Container') {
+            steps {
+                script {
+                    // Stop and remove any running containers with the same name
+                    sh "docker stop ${CONTAINER_NAME} || true"
+                    sh "docker rm ${CONTAINER_NAME} || true"
+                }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                script {
+                    // Run the Docker container, map port 4000 of the container to 3000 of the host
+                    sh "docker run -d -p 4000:3000 --name ${CONTAINER_NAME} ${DOCKER_IMAGE}"
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Docker container was successfully built and deployed.'
+        }
+        failure {
+            echo 'There was an error with the build process.'
+        }
+    }
+}
