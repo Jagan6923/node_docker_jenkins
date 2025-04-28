@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                    sh 'docker build -t ${DOCKER_IMAGE} .'
+                    bat 'docker build -t %DOCKER_IMAGE% .'
                 }
             }
         }
@@ -27,8 +27,8 @@ pipeline {
             steps {
                 script {
                     // Stop and remove any running containers with the same name
-                    sh "docker stop ${CONTAINER_NAME} || true"
-                    sh "docker rm ${CONTAINER_NAME} || true"
+                    bat "docker stop %CONTAINER_NAME% || true"
+                    bat "docker rm %CONTAINER_NAME% || true"
                 }
             }
         }
@@ -37,7 +37,7 @@ pipeline {
             steps {
                 script {
                     // Run the Docker container, map port 4000 of the container to 3000 of the host
-                    sh "docker run -d -p 4000:3000 --name ${CONTAINER_NAME} ${DOCKER_IMAGE}"
+                    bat "docker run -d -p 4000:3000 --name %CONTAINER_NAME% %DOCKER_IMAGE%"
                 }
             }
         }
