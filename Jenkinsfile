@@ -37,7 +37,7 @@ pipeline {
             steps {
                 script {
                     // Run the Docker container, map port 4000 of the container to 3000 of the host
-                    bat "docker run -d -p 4000:3000 --name %CONTAINER_NAME% %DOCKER_IMAGE%"
+                    bat "docker run -d -p 3000:3000 --name %CONTAINER_NAME% %DOCKER_IMAGE%"
                 }
             }
         }
